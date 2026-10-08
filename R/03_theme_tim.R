@@ -10,7 +10,7 @@ library(scales)
 library(patchwork)
 
 # 1. Load Data
-data_clean <- readRDS("data_clean.rds") 
+data_clean <- readRDS("03_Data_clean.rds") 
 
 # 2. FIX NUMERIK & PERSIAPAN DATAFRAME (data_df)
 data_clean <- data_clean %>%
