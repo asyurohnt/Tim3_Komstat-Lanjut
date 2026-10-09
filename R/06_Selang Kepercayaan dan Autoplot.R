@@ -313,3 +313,24 @@ ggsave(
   height = 7,
   dpi = 300
 )
+
+
+# Hasil Analisis Line-Up
+# Jumlah pengamat yang memilih panel asli
+x <- 7
+
+# Jumlah seluruh pengamat
+n <- 10
+
+# Peluang memilih panel asli jika menebak acak
+p0 <- 1 / 20
+
+# Uji binomial eksak satu arah
+hasil_lineup <- binom.test(
+  x = x,
+  n = n,
+  p = p0,
+  alternative = "greater"
+)
+
+hasil_lineup
