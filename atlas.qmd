@@ -1,0 +1,248 @@
+---
+title: "Atlas Visual Sulawesi"
+subtitle: "IPM dan Kemiskinan Kabupaten/Kota di Sulawesi Selatan, 2023–2025"
+author:
+  - "Tim 3 — Komputasi Statistika Lanjut"
+  - "Suhartin M (H062261006)"
+  - "Asyuroh Nurmadanih Tahir (H062261007)"
+lang: id
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    embed-resources: true
+    theme: cosmo
+    html-math-method: katex
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+library(knitr)
+
+# File atlas.qmd sebaiknya disimpan di folder project yang sama
+# dengan gambar-gambar hasil analisis.
+doc_path <- "."
+
+gambar_ada <- function(nama) file.exists(file.path(doc_path, nama))
+
+tampilkan_gambar <- function(nama, caption = NULL, width = NULL) {
+  jalur <- file.path(doc_path, nama)
+  if (file.exists(jalur)) {
+    knitr::include_graphics(jalur)
+  } else {
+    cat(paste0(
+      "\n\n**Belum ditemukan:** `", nama,
+      "`. Pastikan file tersedia di folder project atau sesuaikan jalurnya.\n\n"
+    ))
+  }
+}
+```
+
+# Ringkasan utama
+
+Atlas ini menyajikan visualisasi Indeks Pembangunan Manusia (IPM) dan kemiskinan kabupaten/kota di Sulawesi Selatan selama 2023–2025. Atlas menggabungkan grafik distribusi dan tren, peta tematik, profil wilayah, serta analisis ketidakpastian dan inferensi visual.
+
+Grafik digunakan untuk merangkum pola yang tampak pada data. Hubungan antara IPM dan kemiskinan yang terlihat dalam grafik tidak dengan sendirinya membuktikan hubungan sebab-akibat.
+
+# Pendahuluan dan makeover grafik
+
+Visualisasi sebelum dan sesudah *makeover* ditampilkan untuk memperlihatkan perubahan dalam keterbacaan, hierarki visual, dan penekanan informasi.
+
+```{r}
+#| label: makeover
+#| fig-cap: "Perbandingan grafik sebelum dan sesudah makeover"
+#| layout-ncol: 2
+#| out-width: "100%"
+
+knitr::include_graphics(c(
+  file.path(doc_path, "Before Makeover.jpg"),
+  file.path(doc_path, "makeover_kemiskinan_sulsel_2025.png")
+))
+```
+
+# Galeri grafik statistik dan tren indikator
+
+## Galeri grafik
+
+```{r}
+#| label: galeri-grafik
+#| fig-cap: "Galeri grafik yang dibuat pada tahap sebelumnya"
+
+knitr::include_graphics(c(
+  file.path(doc_path, "galeri_grafik_1.png"),
+  file.path(doc_path, "galeri_grafik_2.png"),
+  file.path(doc_path, "galeri_grafik_3.png"),
+  file.path(doc_path, "galeri_grafik_4.png"),
+  file.path(doc_path, "galeri_peta_5.png")
+))
+```
+
+## Distribusi kemiskinan
+
+```{r}
+#| label: distribusi-kemiskinan
+#| fig-cap: "Distribusi kemiskinan kabupaten/kota di Sulawesi Selatan"
+
+tampilkan_gambar("CP3_distribusi_kemiskinan.png")
+```
+
+Grafik distribusi membantu melihat sebaran dan perbedaan tingkat kemiskinan antardaerah. Interpretasi spesifik seperti wilayah dengan nilai tertinggi atau terendah perlu merujuk pada angka dan label yang tercantum di grafik.
+
+## Tren kemiskinan
+
+```{r}
+#| label: tren-kemiskinan
+#| fig-cap: "Tren kemiskinan kabupaten/kota Sulawesi Selatan selama periode pengamatan"
+
+tampilkan_gambar("CP3_tren_kemiskinan.png")
+```
+
+Grafik tren digunakan untuk membandingkan perubahan indikator kemiskinan sepanjang 2023–2025. Perubahan pada periode pendek ini dideskripsikan sebagai pola dalam data yang diamati, bukan sebagai bukti penyebab perubahan.
+
+## Distribusi dan tren IPM
+
+```{r}
+#| label: distribusi-ipm
+#| fig-cap: "Distribusi IPM kabupaten/kota di Sulawesi Selatan"
+
+tampilkan_gambar("CP3_distribusi_IPM.png")
+```
+
+```{r}
+#| label: tren-ipm
+#| fig-cap: "Tren IPM kabupaten/kota Sulawesi Selatan selama periode pengamatan"
+
+tampilkan_gambar("CP3_tren_IPM.png")
+```
+
+## Komposisi multipanel
+
+```{r}
+#| label: komposisi-patchwork
+#| fig-cap: "Komposisi grafik multipanel"
+
+tampilkan_gambar("komposisi_patchwork_final.png")
+```
+
+# Peta koroplet dan aksesibilitas warna
+
+Peta berikut menunjukkan persebaran kemiskinan tahun 2025. Dua simulasi tambahan digunakan untuk memeriksa keterbedaan warna bagi pembaca dengan kondisi persepsi warna tertentu.
+
+```{r}
+#| label: peta-aksesibilitas
+#| fig-cap: "Peta kemiskinan 2025: peta utama, simulasi deuteranopia, dan simulasi protanopia"
+#| layout-ncol: 3
+
+knitr::include_graphics(c(
+  file.path(doc_path, "CP3_peta_koroplet_kemiskinan_2025.png"),
+  file.path(doc_path, "CP3_peta_deuteranopia.png"),
+  file.path(doc_path, "CP3_peta_protanopia.png")
+))
+```
+
+Warna pada peta utama menunjukkan kategori tingkat kemiskinan di setiap kabupaten/kota. Sementara itu, simulasi deuteranopia dan protanopia digunakan untuk memeriksa apakah perbedaan warna pada peta tetap mudah dibedakan oleh pembaca dengan gangguan persepsi warna. Simulasi ini merupakan pemeriksaan aksesibilitas visual, bukan analisis statistik tambahan.
+
+# Profil 24 kabupaten/kota
+
+Profil wilayah dibuat secara otomatis melalui fungsi grafik yang tersedia dalam skrip R proyek.
+
+```{r}
+#| label: profil-wilayah
+#| echo: false
+#| results: asis
+
+folder_profil <- "CP3_profil_wilayah"
+
+file_profil <- sort(list.files(
+  path = folder_profil,
+  pattern = "\\.png$",
+  full.names = TRUE
+))
+
+for (file in file_profil) {
+  nama_wilayah <- tools::file_path_sans_ext(basename(file))
+  nama_wilayah <- sub("^CP3_profil_", "", nama_wilayah)
+  nama_wilayah <- gsub("_", " ", nama_wilayah)
+  
+  cat("### ", nama_wilayah, "\n\n", sep = "")
+  
+  cat(
+    "![](", file, "){width=100%}\n\n",
+    sep = ""
+  )
+}
+```
+
+Bagian ini menyajikan profil visual 24 kabupaten/kota di Sulawesi Selatan. Setiap profil merangkum informasi mengenai tingkat kemiskinan selama periode 2023–2025, sehingga pembaca dapat melihat gambaran kondisi masing-masing wilayah.
+
+# Ketidakpastian: interval bootstrap
+
+Grafik ini menampilkan estimasi rata-rata kemiskinan per wilayah beserta interval kepercayaan bootstrap 95%.
+
+```{r}
+#| label: bootstrap
+#| fig-cap: "Estimasi dan interval kepercayaan bootstrap 95% untuk kemiskinan"
+
+tampilkan_gambar("H10-11_ketidakpastian_bootstrap.png")
+```
+
+Data tahunan yang digunakan mencakup tiga tahun (2023–2025), sehingga jumlah pengamatan per wilayah sangat terbatas. Interval bootstrap perlu ditafsirkan dengan hati-hati dan tidak dianggap sebagai ukuran ketidakpastian yang sangat presisi.
+
+# Inferensi visual: lineup
+
+Lineup terdiri atas 20 panel, yaitu satu panel data asli dan 19 panel hasil permutasi. Pengamat diminta memilih panel yang terlihat paling berbeda dari panel lainnya.
+
+```{r}
+#| label: lineup
+#| fig-cap: "Lineup hubungan IPM dan kemiskinan; panel asli tidak ditandai pada gambar"
+
+tampilkan_gambar("lineup_IPM_Kemiskinan.png")
+```
+
+## Hasil pengamatan dan uji binomial
+
+Dari 10 responden, 7 orang memilih Panel 17, yaitu panel asli. Proporsi jawaban benar pada kelompok pengamat ini adalah 7/10 atau 70%.
+
+Uji binomial yang dilakukan menggunakan peluang tebakan acak sebesar $P=1/20=0.05$ menghasilkan *p-value* sebesar $8,198 \times  10^-8$. Di bawah asumsi bahwa setiap responden menebak secara independen dengan peluang benar sebesar $0,05$ , jumlah jawaban benar tersebut jauh lebih tinggi daripada yang diharapkan jika responden hanya menebak secara acak.
+
+Namun, hasil ini perlu dipahami sesuai dengan metode pengujian yang digunakan dan tidak serta-merta mewakili seluruh pendekatan perhitungan visual p-value dalam analisis lineup. Selain itu, hasil ini tidak membuktikan adanya hubungan sebab-akibat antara IPM dan kemiskinan.
+
+# Metode S3 `autoplot()`
+
+Metode S3 `autoplot.ringkasan_wilayah()` dibuat agar objek ringkasan wilayah dapat divisualisasikan melalui fungsi generik `autoplot()`.
+
+```{r}
+#| label: autoplot-s3
+#| fig-cap: "Scatterplot ringkasan rata-rata IPM dan kemiskinan dari metode S3 autoplot()"
+
+tampilkan_gambar("H10-11_autoplot_S3.png")
+```
+
+Scatterplot merangkum pola hubungan antara rata-rata IPM dan rata-rata kemiskinan pada wilayah yang dianalisis. Garis regresi menunjukkan asosiasi linear pada data ringkasan, garis tersebut tidak membuktikan kausalitas.
+
+# Keterbatasan analisis
+
+- Data yang diringkas dalam Atlas mencakup periode 2023–2025.
+- Interval bootstrap dihitung dari sedikit pengamatan tahunan per wilayah dan perlu ditafsirkan dengan hati-hati.
+- Hasil lineup berasal dari 10 responden; hasilnya menggambarkan pilihan kelompok pengamat tersebut dan tidak otomatis mewakili seluruh populasi.
+- Asosiasi pada grafik IPM dan kemiskinan tidak dapat ditafsirkan sebagai hubungan sebab-akibat.
+
+# Deklarasi penggunaan AI
+
+AI digunakan sebagai alat bantu untuk memahami konsep, memeriksa dan memperbaiki kode, menyusun kerangka dokumen, serta merapikan narasi interpretasi. Anggota kelompok bertanggung jawab memeriksa kode, data, grafik, hasil analisis, dan isi akhir Atlas. Deklarasi ini perlu disesuaikan dengan penggunaan AI yang benar-benar dilakukan oleh kelompok.
+
+# Reproduksibilitas dan Repository
+
+Seluruh skrip R yang digunakan dalam proyek ini disimpan dalam folder `R/`, sedangkan data dan hasil visualisasi disusun dalam folder masing-masing agar mudah diakses dan ditelusuri. Reproduksibilitas proyek diperiksa dengan melakukan *render* ulang dokumen dari folder proyek di Posit Cloud serta memastikan bahwa seluruh gambar dapat ditampilkan, 24 profil kabupaten/kota tersedia, dan interpretasi yang disajikan sesuai dengan hasil analisis yang diperoleh.
+
+Seluruh berkas dan dokumentasi proyek dapat diakses melalui repositori GitHub berikut:
+
+**GitHub:** <https://github.com/asyurohnt/Tim3_Komstat-Lanjut>
